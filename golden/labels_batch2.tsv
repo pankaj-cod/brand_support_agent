@@ -1,0 +1,55 @@
+55	feedback_no_action	auto	
+56	hardware_repair	escalate	needs_private_data
+57	data_loss	escalate	irreversible_risk
+58	software_bug	auto	
+59	software_bug	auto	
+60	software_bug	auto	
+61	battery_charging	auto	
+62	software_bug	auto	
+63	software_bug	auto	
+64	software_bug	auto	
+65	software_bug	auto	
+66	how_to	auto	
+67	connectivity	auto	
+68	app_service	auto	
+69	software_bug	auto	
+70	feedback_no_action	auto	
+71	software_bug	auto	
+72	feedback_no_action	auto	
+73	feedback_no_action	auto	
+74	software_bug	auto	
+75	unclear	escalate	insufficient_info
+76	software_bug	auto	
+77	account_billing	escalate	needs_private_data
+78	software_bug	auto	
+79	hardware_repair	escalate	needs_private_data
+80	app_service	auto	
+81	software_bug	auto	
+82	how_to	auto	
+83	account_billing	escalate	needs_private_data
+84	hardware_repair	escalate	relationship_risk
+85	unclear	escalate	insufficient_info
+86	connectivity	auto	
+87	software_bug	auto	
+88	how_to	auto	
+89	app_service	escalate	relationship_risk
+90	battery_charging	auto	
+91	software_bug	auto	
+92	feedback_no_action	auto	
+93	software_bug	auto	
+94	software_bug	auto	
+95	how_to	auto	
+96	software_bug	auto	
+97	hardware_repair	escalate	needs_private_data
+98	feedback_no_action	auto	
+99	software_bug	auto	
+100	how_to	auto	
+101	connectivity	auto	
+102	how_to	auto	
+103	software_bug	auto	
+104	app_service	auto	
+105	software_bug	auto	
+106	app_service	auto	
+107	software_bug	auto	
+108	software_bug	auto	
+109	feedback_no_action	auto	

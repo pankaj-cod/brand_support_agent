@@ -1,0 +1,56 @@
+idx	intent	route	reason
+0	app_service	auto	
+1	unclear	escalate	insufficient_info
+2	feedback_no_action	auto	
+3	software_bug	auto	
+4	software_bug	auto	
+5	hardware_repair	escalate	needs_private_data
+6	unclear	escalate	insufficient_info
+7	software_bug	auto	
+8	app_service	auto	
+9	software_bug	auto	
+10	how_to	auto	
+11	software_bug	auto	
+12	feedback_no_action	escalate	relationship_risk
+13	battery_charging	auto	
+14	data_loss	escalate	irreversible_risk
+15	software_bug	auto	
+16	battery_charging	escalate	needs_private_data
+17	software_bug	auto	
+18	app_service	auto	
+19	battery_charging	auto	
+20	battery_charging	escalate	needs_private_data
+21	software_bug	auto	
+22	unclear	escalate	insufficient_info
+23	software_bug	auto	
+24	battery_charging	auto	
+25	hardware_repair	escalate	needs_private_data
+26	hardware_repair	escalate	needs_private_data
+27	feedback_no_action	auto	
+28	feedback_no_action	escalate	relationship_risk
+29	software_bug	auto	
+30	unclear	escalate	insufficient_info
+31	feedback_no_action	auto	
+32	software_bug	auto	
+33	software_bug	auto	
+34	app_service	auto	
+35	account_billing	escalate	needs_private_data
+36	connectivity	auto	
+37	how_to	auto	
+38	battery_charging	auto	
+39	software_bug	auto	
+40	battery_charging	auto	
+41	software_bug	auto	
+42	app_service	auto	
+43	feedback_no_action	auto	
+44	hardware_repair	escalate	needs_private_data
+45	connectivity	auto	
+46	app_service	auto	
+47	account_billing	escalate	needs_private_data
+48	software_bug	auto	
+49	hardware_repair	escalate	relationship_risk
+50	connectivity	auto	
+51	feedback_no_action	auto	
+52	software_bug	auto	
+53	software_bug	auto	
+54	software_bug	escalate	irreversible_risk

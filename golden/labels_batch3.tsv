@@ -1,0 +1,55 @@
+110	app_service	auto	
+111	app_service	auto	
+112	software_bug	auto	
+113	app_service	auto	
+114	how_to	escalate	irreversible_risk
+115	app_service	auto	
+116	feedback_no_action	auto	
+117	software_bug	auto	
+118	how_to	auto	
+119	software_bug	auto	
+120	how_to	auto	
+121	battery_charging	auto	
+122	how_to	auto	
+123	software_bug	auto	
+124	hardware_repair	escalate	relationship_risk
+125	software_bug	auto	
+126	app_service	escalate	needs_private_data
+127	software_bug	auto	
+128	software_bug	auto	
+129	feedback_no_action	auto	
+130	unclear	escalate	insufficient_info
+131	software_bug	auto	
+132	software_bug	auto	
+133	feedback_no_action	escalate	relationship_risk
+134	software_bug	auto	
+135	data_loss	escalate	irreversible_risk
+136	how_to	auto	
+137	software_bug	auto	
+138	feedback_no_action	auto	
+139	how_to	auto	
+140	connectivity	auto	
+141	software_bug	escalate	relationship_risk
+142	software_bug	auto	
+143	software_bug	auto	
+144	app_service	auto	
+145	data_loss	escalate	irreversible_risk
+146	software_bug	auto	
+147	software_bug	auto	
+148	app_service	auto	
+149	app_service	auto	
+150	software_bug	auto	
+151	battery_charging	auto	
+152	battery_charging	auto	
+153	how_to	auto	
+154	hardware_repair	escalate	safety_risk
+155	hardware_repair	escalate	needs_private_data
+156	software_bug	auto	
+157	software_bug	auto	
+158	connectivity	auto	
+159	battery_charging	auto	
+160	software_bug	auto	
+161	unclear	escalate	insufficient_info
+162	hardware_repair	escalate	needs_private_data
+163	app_service	auto	
+164	software_bug	auto	

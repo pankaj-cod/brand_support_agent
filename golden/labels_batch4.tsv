@@ -1,0 +1,55 @@
+165	software_bug	auto	
+166	battery_charging	auto	
+167	feedback_no_action	auto	
+168	software_bug	auto	
+169	hardware_repair	escalate	safety_risk
+170	software_bug	auto	
+171	software_bug	auto	
+172	how_to	auto	
+173	software_bug	auto	
+174	account_billing	escalate	needs_private_data
+175	software_bug	auto	
+176	software_bug	auto	
+177	battery_charging	auto	
+178	feedback_no_action	auto	
+179	software_bug	auto	
+180	connectivity	auto	
+181	how_to	auto	
+182	battery_charging	escalate	needs_private_data
+183	software_bug	auto	
+184	software_bug	auto	
+185	software_bug	auto	
+186	software_bug	auto	
+187	account_billing	escalate	needs_private_data
+188	software_bug	auto	
+189	unclear	escalate	insufficient_info
+190	software_bug	auto	
+191	software_bug	auto	
+192	software_bug	auto	
+193	battery_charging	auto	
+194	feedback_no_action	auto	
+195	software_bug	auto	
+196	feedback_no_action	auto	
+197	hardware_repair	escalate	needs_private_data
+198	app_service	auto	
+199	software_bug	auto	
+200	software_bug	auto	
+201	battery_charging	auto	
+202	account_billing	escalate	needs_private_data
+203	software_bug	auto	
+204	feedback_no_action	auto	
+205	feedback_no_action	auto	
+206	software_bug	auto	
+207	unclear	escalate	insufficient_info
+208	software_bug	auto	
+209	hardware_repair	escalate	safety_risk
+210	battery_charging	auto	
+211	account_billing	escalate	needs_private_data
+212	app_service	auto	
+213	unclear	escalate	insufficient_info
+214	unclear	escalate	insufficient_info
+215	software_bug	auto	
+216	hardware_repair	escalate	needs_private_data
+217	software_bug	auto	
+218	software_bug	escalate	irreversible_risk
+219	data_loss	escalate	irreversible_risk

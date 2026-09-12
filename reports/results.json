@@ -1,0 +1,65 @@
+[
+  {
+    "system": "B0 trivial (majority class + canned reply)",
+    "intent_acc": 0.38181818181818183,
+    "intent_acc_ci": [
+      0.2909090909090909,
+      0.4727272727272727
+    ],
+    "macro_f1": 0.05526315789473685,
+    "macro_f1_ci": [
+      0.04507042253521127,
+      0.06419753086419752
+    ],
+    "esc_recall": 0.0,
+    "esc_recall_ci": [
+      0.0,
+      0.0
+    ],
+    "esc_precision": 0.0,
+    "missed_escalations": 27,
+    "over_escalations": 0
+  },
+  {
+    "system": "B1 simple (TF-IDF+LogReg + retrieved reply)",
+    "intent_acc": 0.42727272727272725,
+    "intent_acc_ci": [
+      0.33636363636363636,
+      0.5181818181818182
+    ],
+    "macro_f1": 0.2487301587301587,
+    "macro_f1_ci": [
+      0.15675217797847107,
+      0.3195779310452886
+    ],
+    "esc_recall": 0.25925925925925924,
+    "esc_recall_ci": [
+      0.09375,
+      0.43478260869565216
+    ],
+    "esc_precision": 0.5833333333333334,
+    "missed_escalations": 20,
+    "over_escalations": 5
+  },
+  {
+    "system": "AGENT (LLM + retrieval, UNJUDGED)",
+    "intent_acc": 0.7363636363636363,
+    "intent_acc_ci": [
+      0.6545454545454545,
+      0.8181818181818182
+    ],
+    "macro_f1": 0.7364935554641437,
+    "macro_f1_ci": [
+      0.5941002980652531,
+      0.8189264606929645
+    ],
+    "esc_recall": 0.4444444444444444,
+    "esc_recall_ci": [
+      0.26666666666666666,
+      0.6400714285714282
+    ],
+    "esc_precision": 0.6,
+    "missed_escalations": 15,
+    "over_escalations": 8
+  }
+]
