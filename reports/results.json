@@ -1,15 +1,15 @@
 [
   {
     "system": "B0 trivial (majority class + canned reply)",
-    "intent_acc": 0.38181818181818183,
+    "intent_acc": 0.39545454545454545,
     "intent_acc_ci": [
-      0.2909090909090909,
-      0.4727272727272727
+      0.32727272727272727,
+      0.45920454545454487
     ],
-    "macro_f1": 0.05526315789473685,
+    "macro_f1": 0.05667752442996743,
     "macro_f1_ci": [
-      0.04507042253521127,
-      0.06419753086419752
+      0.049315068493150684,
+      0.06293899111859284
     ],
     "esc_recall": 0.0,
     "esc_recall_ci": [
@@ -17,49 +17,75 @@
       0.0
     ],
     "esc_precision": 0.0,
-    "missed_escalations": 27,
+    "missed_escalations": 54,
     "over_escalations": 0
   },
   {
     "system": "B1 simple (TF-IDF+LogReg + retrieved reply)",
-    "intent_acc": 0.42727272727272725,
+    "intent_acc": 0.4818181818181818,
     "intent_acc_ci": [
-      0.33636363636363636,
-      0.5181818181818182
+      0.41818181818181815,
+      0.5454545454545454
     ],
-    "macro_f1": 0.2487301587301587,
+    "macro_f1": 0.3066068672330015,
     "macro_f1_ci": [
-      0.15675217797847107,
-      0.3195779310452886
+      0.23469686454525276,
+      0.3658687716549018
     ],
-    "esc_recall": 0.25925925925925924,
+    "esc_recall": 0.24074074074074073,
     "esc_recall_ci": [
-      0.09375,
-      0.43478260869565216
+      0.13333333333333333,
+      0.35297181372549
     ],
-    "esc_precision": 0.5833333333333334,
-    "missed_escalations": 20,
-    "over_escalations": 5
+    "esc_precision": 0.5909090909090909,
+    "missed_escalations": 41,
+    "over_escalations": 9
   },
   {
-    "system": "AGENT (LLM + retrieval, UNJUDGED)",
+    "system": "AGENT (LLM + retrieval)",
     "intent_acc": 0.7363636363636363,
     "intent_acc_ci": [
-      0.6545454545454545,
-      0.8181818181818182
+      0.6772727272727272,
+      0.7954545454545454
     ],
-    "macro_f1": 0.7364935554641437,
+    "macro_f1": 0.7536220505997382,
     "macro_f1_ci": [
-      0.5941002980652531,
-      0.8189264606929645
+      0.6758288097541435,
+      0.809723369704645
     ],
-    "esc_recall": 0.4444444444444444,
+    "esc_recall": 0.46296296296296297,
     "esc_recall_ci": [
-      0.26666666666666666,
-      0.6400714285714282
+      0.3333333333333333,
+      0.5964912280701754
     ],
-    "esc_precision": 0.6,
-    "missed_escalations": 15,
-    "over_escalations": 8
+    "esc_precision": 0.6410256410256411,
+    "missed_escalations": 29,
+    "over_escalations": 14,
+    "send_worthy": 0.7727272727272727,
+    "send_worthy_ci": [
+      0.7181818181818181,
+      0.8272727272727273
+    ]
+  },
+  {
+    "system": "ABLATION (LLM, no retrieval)",
+    "intent_acc": 0.7363636363636363,
+    "intent_acc_ci": [
+      0.6772727272727272,
+      0.7954545454545454
+    ],
+    "macro_f1": 0.7536220505997382,
+    "macro_f1_ci": [
+      0.6758288097541435,
+      0.809723369704645
+    ],
+    "esc_recall": 0.46296296296296297,
+    "esc_recall_ci": [
+      0.3333333333333333,
+      0.5964912280701754
+    ],
+    "esc_precision": 0.6410256410256411,
+    "missed_escalations": 29,
+    "over_escalations": 14
   }
 ]

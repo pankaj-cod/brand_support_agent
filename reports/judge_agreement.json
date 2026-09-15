@@ -1,0 +1,9 @@
+{
+  "n": 60,
+  "raw_agreement": 0.25,
+  "kappa": 0.0,
+  "judge_lenient_errors": 45,
+  "judge_harsh_errors": 0,
+  "human_rate": 0.0,
+  "judge_rate": 0.75
+}

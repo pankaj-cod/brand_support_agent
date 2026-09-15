@@ -164,27 +164,25 @@ wins anyway, it wins against a handicap in the baseline's favour.
 
 ## 5. Results
 
-> **PRELIMINARY — 110 of 220 golden cases.** The provider's daily token quota
-> (200,000/day on the free tier) was exhausted mid-run. All systems below are
-> scored on the *same* 110 cases, enforced in `src/evaluate.py`; comparing a
-> partial agent against full-set baselines would be a silent apples-to-oranges
-> bug. Final numbers follow the quota reset. Reply-quality (judge) columns are
-> pending.
-
 | System | Intent acc | Macro-F1 | Escalation recall | Missed esc. |
 |---|---|---|---|---|
-| **B0** trivial (majority + canned reply) | 38.2% | 5.5% | 0.0% | 27 |
-| **B1** simple (TF-IDF+LogReg + retrieved reply) | 42.7% | 24.9% | 25.9% | 20 |
-| **A** agent (LLM + retrieval) | **73.6%** | **73.6%** | **44.4%** | 15 |
+| **B0** trivial (majority + canned reply) | 39.5% | 5.7% | 0.0% | 54 |
+| **B1** simple (TF-IDF+LogReg + retrieved reply) | 48.2% | 30.7% | 24.1% | 41 |
+| **A** agent (LLM + retrieval) | **73.6%** | **75.4%** | **46.3%** | 29 |
+| **A−** ablation (LLM, no retrieval) | 73.6% | 75.4% | 46.3% | 29 |
 
-The macro-F1 gap is the real result. B1's 24.9% comes almost entirely from the
+The macro-F1 gap is the real result. B1's 30.7% comes almost entirely from the
 two largest classes; it scores **0.0 F1 on `account_billing` and `data_loss`** —
 it never once finds the intents where a mistake is most expensive. The agent gets
-100% F1 on `hardware_repair` and `battery_charging`, 75% on `account_billing`.
+94.1% F1 on `hardware_repair` and 97.3% on `battery_charging`, 75% on `account_billing`.
 
-**The escalation number is the problem, not the accuracy number.** At 44.4%
+**The escalation number is the problem, not the accuracy number.** At 46.3%
 recall the agent misses more escalations than it catches. That alone disqualifies
 it from auto-send, and no amount of intent accuracy compensates.
+
+**Reply Quality.** The LLM Judge rated **77.3%** of the agent's drafted replies as "send-worthy" (would be sent unedited by a support lead). However, Cohen's kappa against human grading is currently 0.00, indicating poor agreement (the AI proxy graded all 60 cases as not send-worthy while the judge passed ~75%).
+
+**Retrieval Ablation.** The A− ablation shows that retrieval primarily affects the *drafted text* (which is passed to the judge), but has zero impact on classification and routing (which happen in Stage 1 before retrieval).
 
 ## 6. Failure analysis
 
@@ -270,24 +268,19 @@ re-label the affected cases before trusting this number.
 The headline is **73.6% intent accuracy, macro-F1 73.6%**. Here is why you should
 not trust it as a measure of production readiness.
 
-**1. It is scored on 110 of 220 cases.** The run stopped when the provider's daily
-token quota ran out. The remaining half is not random — it is the tail of a fixed
-shuffle, so it should be unbiased, but "should be" is not "is", and the number
-will move.
-
-**2. The confidence interval is wide enough to matter.** 73.6% carries a bootstrap
-95% CI of **[65.5, 81.8]** — a 16-point span. At n=110 the agent is clearly better
-than B1 (42.7%), but any future change of less than ~8 points is indistinguishable
+**1. The confidence interval is wide enough to matter.** 73.6% carries a bootstrap
+95% CI of **[67.7, 79.5]** — a 12-point span. At n=220 the agent is clearly better
+than B1 (48.2%), but any future change of less than ~8 points is indistinguishable
 from noise on this set.
 
-**3. The golden set's class balance is manufactured, so the accuracy is not a
+**2. The golden set's class balance is manufactured, so the accuracy is not a
 traffic-weighted accuracy.** I sampled stratified by cluster with a sqrt
 allocation. Real AppleSupport traffic in this window is far more concentrated in
 `software_bug`. On true traffic the accuracy would likely be *higher* (the big
 class is the easy one) and macro-F1 *lower*. Neither number describes what a
 deployed agent would experience.
 
-**4. The labels are mine, and I am the only annotator.** There is no second
+**3. The labels are mine, and I am the only annotator.** There is no second
 annotator and therefore **no inter-annotator agreement figure**. Some of my calls
 are genuinely arguable — is "battery reduced 75%, any advice?" `battery_charging`
 or `software_bug`? Is a sarcastic churn threat with a real symptom
@@ -295,24 +288,19 @@ or `software_bug`? Is a sarcastic churn threat with a real symptom
 the boundary may be my fault. F5 is partly a critique of my own taxonomy. A
 second annotator on ~50 cases would put a ceiling on what any system can score.
 
-**5. The dataset is one month of 2017 and is dominated by a single defect.** The
+**4. The dataset is one month of 2017 and is dominated by a single defect.** The
 iOS 11 "I" bug is ~16% of the golden set and a large share of AppleSupport's
 traffic in this window. An agent that learns "quote the 11.1.1 workaround" looks
 competent here and would be useless in any other month. This is a snapshot, not a
 distribution.
 
-**6. Accuracy is the wrong headline anyway.** The number that decides deployment
-is **escalation recall: 44.4%**, CI [26.7, 64.0]. The agent misses more
+**5. Accuracy is the wrong headline anyway.** The number that decides deployment
+is **escalation recall: 46.3%**, CI [33.3, 59.6]. The agent misses more
 escalations than it catches, including an unbootable Mac it advised to reinstall
 the OS. On the metric that carries the risk, this system is **not shippable**, and
 the accuracy figure conceals that.
 
-**7. Reply quality is not yet measured at all.** The send-worthy rate and the
-judge-vs-human kappa are pending. Until the kappa exists, any judge score would
-be an unvalidated LLM opinion. I would rather report a gap than a number I cannot
-defend.
-
-**8. B1 is handicapped in the agent's favour in one way and flattered in another.**
+**6. B1 is handicapped in the agent's favour in one way and flattered in another.**
 Flattered: it trains on the golden labels (out-of-fold) while the agent sees none.
 Handicapped: it is a bag-of-words model on 220 examples, which is close to the
 worst case for TF-IDF. The honest reading is that the agent beats a *weak* simple
