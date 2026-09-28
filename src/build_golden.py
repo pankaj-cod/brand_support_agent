@@ -31,11 +31,15 @@ def main():
             assert reason == "", f"auto rows must have no reason (idx {i})"
         out.append({
             "case_id": r["case_id"], "idx": i, "opener": r["opener"],
-            "stratum": r["stratum"],
+            "stratum": r.get("stratum", intent),
             "gold_intent": intent, "gold_route": route, "gold_escalate_reason": reason,
-            # Apple's own reply is kept as a REFERENCE for reply grading, never as a label.
-            "reference_reply": r["first_brand_reply"],
-            "n_turns": r["n_turns"],
+            # Human-grade reference response for reply grading, never treated as historical deflection
+            "reference_reply": r.get("reference_reply") or r.get("reference_response") or r.get("first_brand_reply", ""),
+            "historical_brand_reply": r.get("historical_brand_reply") or r.get("first_brand_reply", ""),
+            "n_turns": r.get("n_turns", 2),
+            "is_edge_case": r.get("is_edge_case", False),
+            "edge_category": r.get("edge_category", "normal_stratified"),
+            "conversation_context": r.get("conversation_context", ""),
         })
 
     with open(OUT, "w", encoding="utf-8") as f:

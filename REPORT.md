@@ -156,11 +156,12 @@ wins anyway, it wins against a handicap in the baseline's favour.
   its own prose style.
 - **Rubric before verdict.** It scores grounded / actionable / tone / policy
   first, so the verdict has to follow stated evidence rather than a vibe.
-- **Validated against a human.** A stratified subset was graded by hand on the
-  same binary question; §6 reports raw agreement, Cohen's kappa, and the
-  *direction* of the judge's bias. Kappa is the number to read: if 80% of replies
-  are send-worthy, a judge that always says "yes" scores 80% agreement and is
-  worthless.
+- **To be validated against a human.** `src/judge_agreement.py` compares the
+  judge with hand grades on the same binary question and reports raw agreement,
+  Cohen's kappa, and the *direction* of the judge's bias. Kappa is the number to
+  read: if 80% of replies are send-worthy, a judge that always says "yes" scores
+  80% agreement and is worthless. **This validation has not been done yet** — see
+  §5.
 
 ## 5. Results
 
@@ -180,7 +181,13 @@ it never once finds the intents where a mistake is most expensive. The agent get
 recall the agent misses more escalations than it catches. That alone disqualifies
 it from auto-send, and no amount of intent accuracy compensates.
 
-**Reply Quality.** The LLM Judge rated **77.3%** of the agent's drafted replies as "send-worthy" (would be sent unedited by a support lead). However, Cohen's kappa against human grading is currently 0.00, indicating poor agreement (the AI proxy graded all 60 cases as not send-worthy while the judge passed ~75%).
+**Reply quality.** The LLM judge rated **77.3%** of the agent's drafted replies as
+send-worthy (95% CI [71.8, 82.7]). **This number is unvalidated.** The 60 grades in
+`golden/human_reply_grades.tsv` are placeholders written by an AI proxy, not by a
+person, and the proxy marked every reply as not send-worthy. With one side
+constant, kappa is 0.00 by construction and says nothing about the judge. Until a
+person grades those 60 replies, read 77.3% as "what one LLM thinks of another",
+not as a deployability figure.
 
 **Retrieval Ablation.** The A− ablation shows that retrieval primarily affects the *drafted text* (which is passed to the judge), but has zero impact on classification and routing (which happen in Stage 1 before retrieval).
 
@@ -195,8 +202,8 @@ messages whose entire content *is* the bug look contentless, and the agent
 answers `unclear` / escalate.
 
 - **36 of 220** golden cases (16.4%) contain U+FE0F.
-- Misclassification rate **44%** on cases containing it, vs **25%** without.
-- **7 of 8** over-escalations are this single pattern.
+- Misclassification rate **39%** on cases containing it, vs **24%** without.
+- **8 of 14** over-escalations are this single pattern.
 
 > `Dear, I️ would lI️ke your I️T department to fI️x this lI️tle glI️tch. SI️ncerly, AustI️n`
 > → predicted `unclear`, escalate, reason `insufficient_info`. Gold: `software_bug`, auto.
@@ -208,12 +215,12 @@ model. Cheap, and it should move ~16% of traffic.
 
 ### F2. The routing decision and the reply contradict each other
 
-In **22 of 116 cases (19%)** the agent returned `route: auto` while the drafted
-reply told the customer to move to DM. The structured decision a downstream
-system would act on disagrees with the text the customer would read.
+In **53 of 181 auto-routed cases (29%)** the agent returned `route: auto` while
+the drafted reply told the customer to move to DM. The structured decision a
+downstream system would act on disagrees with the text the customer would read.
 
-> `my phone doesn't charge anymore & yes I use the charger you gave me and I've tried it on others`
-> → `route: auto`, but the reply ends "...if the issue remains, let us know in DM."
+> `My battery is dying like mad! New iOS update issues? How do I fix this?`
+> → `route: auto`, but the reply is "...Please DM us with the iOS version so we can look into it."
 
 *Hypothesis:* the two stages are separate calls and nothing enforces consistency.
 The drafter senses the case needs a human and hedges, but cannot revise the route.
@@ -223,8 +230,9 @@ draft containing a handoff — a validator, not a prompt instruction.
 ### F3. Correct intent, wrong route, on exactly the expensive cases
 
 The agent frequently identifies the risky intent and then troubleshoots anyway.
-Of 15 missed escalations, **10 had the intent right**: 5 `hardware_repair`,
-2 `data_loss`, 1 `battery_charging`, 2 `feedback_no_action`.
+Of 29 missed escalations, **20 had the intent right**: 8 `hardware_repair`,
+4 `data_loss`, 3 `feedback_no_action`, 2 `software_bug`, and one each of
+`battery_charging`, `how_to` and `unclear`.
 
 > `After update this night, my mbp 2012 does not boot anymore!`
 > → `software_bug`, **auto**, reply advises reinstalling macOS from Recovery.
@@ -239,20 +247,20 @@ it.
 
 ### F4. Asking for identifying data in public
 
-**4 of 116 replies (3%)** solicit an Apple ID, serial number, or location in a
+**3 of 220 replies (1.4%)** ask for an Apple ID, serial number, or location in a
 public tweet.
 
 > `We're sorry you've had this experience. A specialist will look into it — please DM us with your Apple ID...`
 
 Low frequency, high severity: a privacy incident, not a quality miss. It also
 shows the style rule ("never ask for personal data in public") is being followed
-~97% of the time, which is exactly the level of reliability that needs a
+~99% of the time, which is exactly the level of reliability that needs a
 deterministic guard rather than a prompt line.
 
 ### F5. Venting and real issues are genuinely hard to separate
 
 `software_bug` ↔ `feedback_no_action` confusions run both directions
-(5 and 4 cases). These are the labels I found hardest to assign by hand.
+(11 gold `software_bug` predicted `feedback_no_action`, 5 the other way). These are the labels I found hardest to assign by hand.
 
 > `this new iOS 11 update is killing me. It's horrible. Fix it please.` — no
 > symptom named, so I labelled `feedback_no_action`; the agent said `software_bug`.
@@ -265,7 +273,7 @@ re-label the affected cases before trusting this number.
 
 ## 7. What is misleading about my headline number
 
-The headline is **73.6% intent accuracy, macro-F1 73.6%**. Here is why you should
+The headline is **73.6% intent accuracy, macro-F1 75.4%**. Here is why you should
 not trust it as a measure of production readiness.
 
 **1. The confidence interval is wide enough to matter.** 73.6% carries a bootstrap
@@ -313,17 +321,17 @@ Ordered by expected value, not by interest.
 1. **Fix the routing architecture (F2, F3).** Stop letting the model choose the
    route freely. Use the intent's default route as a floor, require explicit
    justification to override downward, and add a validator that rejects any
-   `auto` draft containing a handoff. This targets the 15 missed escalations and
-   the 19% incoherence directly, and needs no model change. **Biggest single win.**
+   `auto` draft containing a handoff. This targets the 29 missed escalations and
+   the 29% incoherence directly, and needs no model change. **Biggest single win.**
 2. **Normalise the input (F1).** Detect U+FE0F and other invisible modifiers and
-   annotate them for the model. ~16% of traffic, with a nearly doubled error rate.
+   annotate them for the model. ~16% of the golden set, with ~1.6× the error rate.
 3. **Deterministic PII guard (F4).** A regex-level check that refuses to emit any
    public reply requesting identifiers. Privacy failures should not be left to a
-   prompt instruction honoured 97% of the time.
+   prompt instruction honoured 99% of the time.
 4. **A second annotator on 50 cases.** Establishes inter-annotator agreement and
    therefore the ceiling on any system's score. Without it I cannot separate
    model error from taxonomy ambiguity, which is the main unknown in F5.
-5. **Finish and validate the judge.** Complete the run, hand-grade 60 replies,
+5. **Validate the judge.** Replace the AI-proxy placeholders with real hand grades on 60 replies,
    report kappa and the direction of the judge's bias. If kappa is below ~0.4,
    the judge gets rebuilt or discarded, not reported.
 6. **Escalation-recall-first threshold tuning.** Emit calibrated confidence and

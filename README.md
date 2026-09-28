@@ -13,6 +13,20 @@ The system is the easy half. The evaluation is the deliverable — see
 
 ---
 
+## Quick start with `make`
+
+```bash
+make setup                 # .venv + requirements + .env (then fill in your API key)
+make data                  # download TWCS, build splits, validate golden set
+make quick                 # baselines -> agent -> judge -> evaluate on 25 cases
+make run                   # the full 220-case headline run
+make web                   # demo dashboard at http://localhost:5001
+make ask TWEET="my iphone won't charge past 80%"   # try the agent on one tweet
+make smoke                 # stubbed-LLM wiring test, no API key needed
+```
+
+`make help` lists every target. `LIMIT=`, `MODEL=` and `WORKERS=` pass through to the agent.
+
 ## Reproduce the headline results in under 15 minutes
 
 Requires Python 3.10+ and an API key for any OpenAI-compatible provider.

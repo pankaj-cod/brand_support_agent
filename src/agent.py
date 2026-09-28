@@ -111,7 +111,14 @@ def main():
     ap.add_argument("--model", default=None)
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--workers", type=int, default=2)
+    ap.add_argument("--tweet", default=None, help="run on one tweet and print the result")
     a = ap.parse_args()
+
+    if a.tweet:
+        r = run_case(a.tweet, retrieval.build(), model=a.model,
+                     use_retrieval=not a.no_retrieval)
+        print(json.dumps(r, ensure_ascii=False, indent=2))
+        return
 
     import os
     rows = [json.loads(l) for l in open(a.input, encoding="utf-8")]
